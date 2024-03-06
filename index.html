@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    :root {
+        --colNr: 1;
+        --cell: 100px;
+    }
+
+    body {
+        margin: 0;
+        font-family: Helvetica;
+        background-color: #121212;
+        color: white;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        height: 100vh;
+        gap: 10px;
+    }
+
+    .card {
+        width: 100px;
+        height: 150px;
+        background-color: #3d3d3d;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 100px;
+        border-radius: 20px;
+    }
+
+    .word {
+        display: grid;
+        grid-template-columns: repeat(var(--colNr), var(--cell));
+        gap: 5px;
+
+    }
+
+    .letter {
+        background-color: #3d3d3d;
+        color: white;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+
+    .letter:hover {
+        background-color: #FFE900;
+        transition: 0.4s;
+        transform: scale(1.1);
+    }
+
+    .letters {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: repeat(7, 50px);
+        cursor: pointer;
+    }
+
+    button {
+        background-color: #333333;
+        color: white;
+        border: none;
+        width: 100px;
+        height: 50px;
+        border-radius: 20px;
+    }
+
+    h1 {
+        margin-top: 30px;
+        margin-bottom: 0px;
+    }
+
+    @media screen and (max-width:500px) {
+        .card {
+            width: 75px;
+            height: 100px;
+        }
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Találd ki a szót</h1>
+        <button onclick="start()">START</button>
+        <div class="word"></div>
+        <div class="letters">
+
+        </div>
+    </div>
+
+    <script src="word.js"></script>
+    <script>
+        let arr;
+        function start() {
+            document.querySelector('.word').innerHTML = ""
+            document.querySelector('.letters').innerHTML = ""
+            let word = words[Math.floor(Math.random() * words.length)]
+            console.log(word);
+            arr = Array.from(word);
+            for (let i = 0; i < arr.length; i++) {
+                document.querySelector('.word').innerHTML += `<div class="card" id="${i}th"></div>`
+            }
+            console.log(abc);
+            let Arrabc = Array.from(abc)
+            Arrabc.forEach(element => {
+                document.querySelector('.letters').innerHTML += `<div class="letter" onclick="guess(this)">${element}</div>`
+            });
+            if (arr.length > 5) {
+                document.body.style.setProperty('--colNr', Math.ceil(arr.length / 2))
+            } else {
+                document.body.style.setProperty('--colNr', arr.length)
+
+            }
+            if (window.innerWidth < 500) {
+                document.body.style.setProperty('--cell', '75px')
+
+            }
+        }
+        function guess(b) {
+            console.log(b);
+            let found = false
+            arr.forEach((element, index) => {
+                if (b.textContent == element) {
+                    b.style.backgroundColor = "#3E5142"
+                    document.getElementById(`${index}th`).textContent = element
+                    found = true
+                }
+            });
+            if (!found) {
+                b.style.backgroundColor = '#8C1829'
+                b.style.color = "#CCCCCC"
+                b.style.transform = "scale(0.9)"
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>
